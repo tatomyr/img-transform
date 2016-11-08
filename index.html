@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html><head>
+  <title>Test</title>
+
+</head><body>
+  <script src="glfx.js"></script>
+
+  <img id="image" src="image.jpg">
+
+  <script>
+
+    window.onload = function() {
+        // try to create a WebGL canvas (will fail if WebGL isn't supported)
+        var canvas = fx.canvas();
+
+
+
+
+        // convert the image to a texture
+        var image = document.getElementById('image');
+        var texture = canvas.texture(image);
+
+
+
+
+
+        canvas.draw(texture);
+
+
+
+
+        // apply the transform
+        var
+          before = [0,0, 0,455, 640,0, 640,455],
+          after = [0,0, 0,455, 640,0, 650,400];
+        canvas.draw(texture).perspective(before, after).update();
+
+        // replace the image with the canvas
+        image.parentNode.insertBefore(canvas, image);
+        image.parentNode.removeChild(image);
+
+
+    };
+
+  </script>
+</body></html>
