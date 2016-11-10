@@ -24,16 +24,19 @@
 
 
 
-        canvas.draw(texture);
 
+        canvas.draw(texture).update(); // <-- My!!!! first layer
 
 
 
         // apply the transform
         var
           before = [0,0, 0,455, 640,0, 640,455],
-          after = [0,0, 0,455, 640,0, 650,400];
-        canvas.draw(texture).perspective(before, after).update();
+          after = [0,0, 0,455, 600,0, 700,400];
+        canvas.draw(texture).perspective(before, after).update(); 
+
+
+
 
         // replace the image with the canvas
         image.parentNode.insertBefore(canvas, image);
