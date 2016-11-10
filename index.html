@@ -1,49 +1,56 @@
 <!DOCTYPE html>
 <html><head>
   <title>Test</title>
+  <script src="perspective.js"></script>
 
 </head><body>
-  <script src="glfx.js"></script>
 
-  <img id="image" src="image.jpg">
+  <canvas id="canvas"></canvas>
+
+  <img id="image" src="image.jpg" />
+  <canvas id="canvas2"></canvas>
 
   <script>
+      var canvas = document.getElementById("canvas");
+      var canvas2 = document.getElementById("canvas2");
+      var image = new Image();
+      image.onload = function() {
+          canvas.width = image.width;
+          canvas.height = image.height;
+          var ctx = canvas.getContext("2d");
 
-    window.onload = function() {
-        // try to create a WebGL canvas (will fail if WebGL isn't supported)
-        var canvas = fx.canvas();
-
-
-
-
-        // convert the image to a texture
-        var image = document.getElementById('image');
-        var texture = canvas.texture(image);
+          // ctx.globalAlpha=0.2;
 
 
+          var p = new Perspective(ctx, image);
+
+          p.draw([
+                  [0, 0],
+                  [image.width - 0, 0],
+                  [image.width - 0, image.height - 0],
+                  [0, image.height]
+          ]);
+
+
+          p.draw([
+                  [image.width / 2, 30],
+                  [image.width - 50, 50],
+                  [image.width - 70, image.height - 30],
+                  [image.width / 2, image.height]
+          ]);
+
+
+          canvas2.width = image.width;
+          canvas2.height = image.height;
+          var ctx2 = canvas2.getContext('2d');
+          ctx2.drawImage(image, 0, 0);
+          ctx2.drawImage(canvas, 0, 0);
 
 
 
-
-        canvas.draw(texture).update(); // <-- My!!!! first layer
-
-
-
-        // apply the transform
-        var
-          before = [0,0, 0,455, 640,0, 640,455],
-          after = [0,0, 0,455, 600,0, 700,400];
-        canvas.draw(texture).perspective(before, after).update(); 
-
-
-
-
-        // replace the image with the canvas
-        image.parentNode.insertBefore(canvas, image);
-        image.parentNode.removeChild(image);
-
-
-    };
-
+      }
+      image.src = "image.jpg";
   </script>
+
+
 </body></html>
